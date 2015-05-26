@@ -78,29 +78,21 @@ class ChecklistViewController: UITableViewController {
             
         let item = items[indexPath.row]
         
-        configureTextForCell(cell, withChecklistItem: item)￼
+        configureTextForCell(cell, withChecklistItem: item)
         configureCheckmarkForCell(cell, withChecklistItem: item)
+        
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-        // Tapping/Selecting a cell toggles the checkmark for that indexPath
             let item = items[indexPath.row]
             item.toggleChecked()
             
             configureCheckmarkForCell(cell, withChecklistItem: item)
-            }
-    
-            // Cell does not remain selected (grey) when tapped
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-            }
-    
-    func configureTextForCell(cell: UITableViewCell,
-                withChecklistItem item: ChecklistItem) {
-                let label = cell.viewWithTag(1000) as! UILabel
-                label.text = item.text }
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
     
     func configureCheckmarkForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
         if item.checked {
@@ -108,5 +100,10 @@ class ChecklistViewController: UITableViewController {
         } else {
             cell.accessoryType = .None
         }
+    }
+    
+    func configureTextForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
+        let label = cell.viewWithTag(1000) as! UILabel
+        label.text = item.text
     }
 }
