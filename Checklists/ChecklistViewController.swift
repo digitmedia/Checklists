@@ -16,7 +16,7 @@ class ChecklistViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 100
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -26,15 +26,15 @@ class ChecklistViewController: UITableViewController {
         
         let label = cell.viewWithTag(1000) as! UILabel
         
-        if indexPath.row == 0 {
+        if indexPath.row % 5 == 0 {
             label.text = "Hond uitlaten"
-        } else if indexPath.row == 1 {
+        } else if indexPath.row % 5 == 1 {
             label.text = "Kat binnenlaten"
-        } else if indexPath.row == 2 {
+        } else if indexPath.row % 5 == 2 {
             label.text = "iOS leren"
-        } else if indexPath.row == 3 {
+        } else if indexPath.row % 5 == 3 {
             label.text = "Boodschappen doen"
-        } else if indexPath.row == 4{
+        } else if indexPath.row % 5 == 4{
             label.text = "banden oppompen"
         }
         
