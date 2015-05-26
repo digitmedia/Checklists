@@ -9,6 +9,13 @@
 import UIKit
 
 class ChecklistViewController: UITableViewController {
+    
+    // Add instance variables with the text for that row
+    var row0text = "Walk the dog"
+    var row1text = "Brush teeth"
+    var row2text = "Learn iOS development"
+    var row3text = "Sailing practice"
+    var row4text = "Take a break"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,26 +23,28 @@ class ChecklistViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+        // Return the number of Rows to the UITableView object
+        return 5
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     
+        // Return the label value for a specific indexPath row number
         let cell = tableView.dequeueReusableCellWithIdentifier("ChecklistItem")
         as! UITableViewCell
         
         let label = cell.viewWithTag(1000) as! UILabel
         
-        if indexPath.row % 5 == 0 {
-            label.text = "Hond uitlaten"
-        } else if indexPath.row % 5 == 1 {
-            label.text = "Kat binnenlaten"
-        } else if indexPath.row % 5 == 2 {
-            label.text = "iOS leren"
-        } else if indexPath.row % 5 == 3 {
-            label.text = "Boodschappen doen"
-        } else if indexPath.row % 5 == 4{
-            label.text = "banden oppompen"
+        if indexPath.row == 0 {
+            label.text = row0text
+        } else if indexPath.row == 1 {
+            label.text = row1text
+        } else if indexPath.row == 2 {
+            label.text = row2text
+        } else if indexPath.row == 3 {
+            label.text = row3text
+        } else if indexPath.row == 4{
+            label.text = row4text
         }
         
         return cell
