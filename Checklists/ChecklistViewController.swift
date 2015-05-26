@@ -40,5 +40,23 @@ class ChecklistViewController: UITableViewController {
         
         return cell
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+            
+            // Tapping/Selecting a cell toggles the checkmark
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+                if cell.accessoryType == .None {
+                    cell.accessoryType = .Checkmark
+                } else {
+                    cell.accessoryType = .None
+                }
+            }
+            
+            // Cell does not remain selected (grey) when tapped
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+    }
+    
+
 }
 
