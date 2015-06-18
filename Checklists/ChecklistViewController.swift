@@ -10,9 +10,9 @@ import UIKit
 
 class ChecklistViewController: UITableViewController {
     
-    // This declares that items will hold an array of ChecklistItem objects 
+    // This declares that 'items' will hold an array of ChecklistItem objects 
     // but it does not actually create that array.
-    // At this point, items does not have a value yet.
+    // At this point, var 'items' does not have a value yet.
     
     var items: [ChecklistItem]
     
@@ -29,7 +29,6 @@ class ChecklistViewController: UITableViewController {
         let row0item = ChecklistItem()
         row0item.text = "Walk the dog"
         row0item.checked = false
-        
         // This adds the ChecklistItem object into the items array.
         items.append(row0item)
         
@@ -58,11 +57,42 @@ class ChecklistViewController: UITableViewController {
         row5item.checked = false
         items.append(row5item)
         
+        let row6item = ChecklistItem()
+        row6item.text = "To Do number 6"
+        row6item.checked = false
+        items.append(row6item)
+        
         super.init(coder: aDecoder) }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    // When user selects a row, the checkmark is toggled
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+            let item = items[indexPath.row]
+            item.toggleChecked()
+            
+            configureCheckmarkForCell(cell, withChecklistItem: item)
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    // The text label of a cell is retrieved for a specific ChecklistItem
+    func configureTextForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
+        let label = cell.viewWithTag(1000) as! UILabel
+        label.text = item.text
+    }
+    
+    // If an item is checked, the Checkmark accessory of the cell is shown
+    func configureCheckmarkForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
+        if item.checked {
+            cell.accessoryType = .Checkmark
+        } else {
+            cell.accessoryType = .None
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -84,38 +114,15 @@ class ChecklistViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-            let item = items[indexPath.row]
-            item.toggleChecked()
-            
-            configureCheckmarkForCell(cell, withChecklistItem: item)
-        }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
+    // Slide left to delete row - using deleteRowsAtIndexPaths
     override func tableView(tableView: UITableView,
         commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        // 1
         items.removeAtIndex(indexPath.row)
-        // 2
         let indexPaths = [indexPath]
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
         }
     
-    func configureCheckmarkForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
-        if item.checked {
-            cell.accessoryType = .Checkmark
-        } else {
-            cell.accessoryType = .None
-        }
-    }
-    
-    func configureTextForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
-        let label = cell.viewWithTag(1000) as! UILabel
-        label.text = item.text
-    }
-    
+    // Add a new hardcoded ChecklistItem object and add it to the end of the array `items = [ChecklistItem]`
     @IBAction func addItem(sender: UIBarButtonItem) {
         let newRowIndex = items.count
         
@@ -124,9 +131,10 @@ class ChecklistViewController: UITableViewController {
         item.checked = false
         items.append(item)
         
+        // Tell the TableView about the new row, so it can add a new row for it - using insertRowsAtIndexPaths
         let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
         let indexPaths = [indexPath]
-        tableView.insertRowsAtIndexPaths(indexPaths,
-            withRowAnimation: .Automatic)
+        tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
     }
+    
 }
