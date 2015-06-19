@@ -8,15 +8,24 @@
 
 import UIKit
 
+protocol AddItemViewControllerDelegate: class {
+    func addItemViewControllerDidCancel(controller: AddItemViewController)
+    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem)
+}
+
 class AddItemViewController: UITableViewController, UITextViewDelegate {
     
     @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+        delegate?.addItemViewControllerDidCancel(self)
     }
     
     @IBAction func done() {
+        let item = ChecklistItem()
+        item.text = textField.text
+        item.checked = false
+        
+        delegate?.addItemViewController(self, didFinishAddingItem: item)
         println("Contents of the text field: \(textField.text)")
-        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // Disallow the table view to select a row
@@ -45,4 +54,7 @@ class AddItemViewController: UITableViewController, UITextViewDelegate {
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    
+    weak var delegate: AddItemViewControllerDelegate?
+    
 }
