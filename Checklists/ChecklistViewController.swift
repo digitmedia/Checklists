@@ -131,27 +131,24 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         }
     }
     
+    // 1st Delegate Protocol Method: 'DidCancel'
     func addItemViewControllerDidCancel(controller: AddItemViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    // 2nd Delegate Protocol Method: 'didFinishAddingItem'
     func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    // Add a new hardcoded ChecklistItem object and add it to the end of the array `items = [ChecklistItem]`
-    @IBAction func addItem(sender: UIBarButtonItem) {
+        // Add the new  ChecklistItem object (created in AddItemViewController) to the data model and table view (by appending `item` to the end of the array `items = [ChecklistItem]`
         let newRowIndex = items.count
         
-        let item = ChecklistItem()
-        item.text = "I am a new row"
-        item.checked = false
-        items.append(item)
+        items.append(item) // item is a new ChecklistItem object, created in AddItemViewController
         
         // Tell the TableView about the new row, so it can add a new row for it - using insertRowsAtIndexPaths
         let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
         let indexPaths = [indexPath]
         tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        
+        // Close the AddItem screen & return to Checklists screen
+        dismissViewControllerAnimated(true, completion: nil)
     }
-    
 }
