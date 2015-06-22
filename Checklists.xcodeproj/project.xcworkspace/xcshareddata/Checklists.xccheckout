@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A031A0EC-26E0-4EEA-AADD-E80498091406</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Checklists</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>2E1587FA6FEEF06081AC99E6AEAD101213677FD5</key>
 		<string>https://github.com/digitmedia/Checklists.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Checklists.xcodeproj</string>
+	<string>Checklists.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>2E1587FA6FEEF06081AC99E6AEAD101213677FD5</key>

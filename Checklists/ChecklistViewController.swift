@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
+class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
     
     // This declares that 'items' will hold an array of ChecklistItem objects 
     // but it does not actually create that array.
@@ -107,15 +107,15 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
         }
     
-    // Tell AddItemViewController that ChecklistViewController is its delegate `AddItemViewControllerDelegate`when performing the segue
+    // Tell ItemDetailViewController that ChecklistViewController is its delegate `ItemDetailViewControllerDelegate`when performing the segue
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddItem" {
             let navigationController = segue.destinationViewController as! UINavigationController
-            let controller = navigationController.topViewController as! AddItemViewController
+            let controller = navigationController.topViewController as! ItemDetailViewController
             controller.delegate = self
         } else if segue.identifier == "EditItem" {
             let navigationController = segue.destinationViewController as! UINavigationController
-            let controller = navigationController.topViewController as! AddItemViewController
+            let controller = navigationController.topViewController as! ItemDetailViewController
             controller.delegate = self
             if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
                 controller.itemToEdit = items[indexPath.row]
@@ -141,16 +141,16 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     }
     
     // 1st Delegate Protocol Method: 'DidCancel'
-    func addItemViewControllerDidCancel(controller: AddItemViewController) {
+    func itemDetailViewControllerDidCancel(controller: ItemDetailViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     // 2nd Delegate Protocol Method: 'didFinishAddingItem'
-    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
-        // Add the new  ChecklistItem object (created in AddItemViewController) to the data model and table view (by appending `item` to the end of the array `items = [ChecklistItem]`
+    func itemDetailViewController(controller: ItemDetailViewController, didFinishAddingItem item: ChecklistItem) {
+        // Add the new  ChecklistItem object (created in ItemDetailViewController) to the data model and table view (by appending `item` to the end of the array `items = [ChecklistItem]`
         let newRowIndex = items.count
         
-        items.append(item) // item is a new ChecklistItem object, created in AddItemViewController
+        items.append(item) // item is a new ChecklistItem object, created in ItemDetailViewController
         
         // Tell the TableView about the new row, so it can add a new row for it - using insertRowsAtIndexPaths
         let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
@@ -163,7 +163,7 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     // 3rd Delegate Protocol Method: didFinishEditingItem
     
-    func addItemViewController(controller: AddItemViewController,
+    func itemDetailViewController(controller: ItemDetailViewController,
                                             didFinishEditingItem item: ChecklistItem) {
         if let index = find(items, item) {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
