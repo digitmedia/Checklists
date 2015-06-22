@@ -113,21 +113,30 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
             let navigationController = segue.destinationViewController as! UINavigationController
             let controller = navigationController.topViewController as! AddItemViewController
             controller.delegate = self
+        } else if segue.identifier == "EditItem" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let controller = navigationController.topViewController as! AddItemViewController
+            controller.delegate = self
+            if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
+                controller.itemToEdit = items[indexPath.row]
+            }
         }
     }
-    
+
     // The text label of a cell is retrieved for a specific ChecklistItem
     func configureTextForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
     }
     
-    // If an item is checked, the Checkmark accessory of the cell is shown
+    // If an item is checked, a label with a Checkmark-character is shown in the corresponding cell
     func configureCheckmarkForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
+        let label = cell.viewWithTag(1001) as! UILabel
+        
         if item.checked {
-            cell.accessoryType = .Checkmark
+            label.text = "✓"
         } else {
-            cell.accessoryType = .None
+            label.text = ""
         }
     }
     
@@ -151,4 +160,18 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         // Close the AddItem screen & return to Checklists screen
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    // 3rd Delegate Protocol Method: didFinishEditingItem
+    
+    func addItemViewController(controller: AddItemViewController,
+                                            didFinishEditingItem item: ChecklistItem) {
+        if let index = find(items, item) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+            configureTextForCell(cell, withChecklistItem: item) }
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }
+
+
